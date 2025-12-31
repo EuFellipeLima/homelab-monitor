@@ -7,6 +7,9 @@ Currently, it displays:
 - RAM usage
 - Disk usage
 - System uptime
+- Hostname
+- OS name (normalized for Windows/macOS/Linux)
+- Kernel (shown on macOS/Linux, hidden on Windows)
 
 The output is shown directly in the terminal.
 
@@ -26,11 +29,12 @@ At the moment:
 - Output is printed to the terminal
 - Cross-platform support for Windows, Linux and macOS (lightly tested)
 - System uptime is calculated based on OS boot time
+- Hostname, OS and kernel information is displayed
 
 ## Roadmap (planned)
 
 - Improve disk detection accuracy on Linux and macOS
-- Add more system information (hostname, OS, kernel)
+- Better accuracy to macOS version detection
 - Optional JSON output
 - Run as a background service
 - Code cleanup and small improvements
