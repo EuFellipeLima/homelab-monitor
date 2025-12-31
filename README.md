@@ -6,6 +6,7 @@ Currently, it displays:
 - CPU usage
 - RAM usage
 - Disk usage
+- System uptime
 
 The output is shown directly in the terminal.
 
@@ -24,11 +25,12 @@ At the moment:
 - Basic monitoring is implemented
 - Output is printed to the terminal
 - Cross-platform support for Windows, Linux and macOS (lightly tested)
+- System uptime is calculated based on OS boot time
 
 ## Roadmap (planned)
 
 - Improve disk detection accuracy on Linux and macOS
-- Add uptime and system information
+- Add more system information (hostname, OS, kernel)
 - Optional JSON output
 - Run as a background service
 - Code cleanup and small improvements
