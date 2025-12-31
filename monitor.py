@@ -7,6 +7,31 @@ try:
 except ImportError:
     distro = None
 
+MACOS_VERSIONS = {
+    "10.0": "Cheetah",
+    "10.1": "Puma",
+    "10.2": "Jaguar",
+    "10.3": "Panther",
+    "10.4": "Tiger",
+    "10.5": "Leopard",
+    "10.6": "Snow Leopard",
+    "10.7": "Lion",
+    "10.8": "Mountain Lion",
+    "10.9": "Mavericks",
+    "10.10": "Yosemite",
+    "10.11": "El Capitan",
+    "10.12": "Sierra",
+    "10.13": "High Sierra",
+    "10.14": "Mojave",
+    "10.15": "Catalina",
+    "11": "Big Sur",
+    "12": "Monterey",
+    "13": "Ventura",
+    "14": "Sonoma",
+    "15": "Sequoia",
+    "26": "Tahoe"
+}
+
 def get_cpu():
     return psutil.cpu_percent(interval=1)
 
@@ -57,15 +82,23 @@ def get_os_info():
         os_name = f"Windows {ver} {sp} (Build: {build})".strip()
     elif system == "Darwin":
         ver, _, _ = platform.mac_ver()
-        kernel = platform.release()
-        os_name = f"macOS {ver} ({kernel})"
+        kernel_ver = platform.release()
+        kernel = f"Darwin {kernel_ver}"
+        major = int(ver.split(".")[0])
+
+        if major >= 11:
+            codename = MACOS_VERSIONS.get(str(major), "")
+            os_name = f"macOS {codename} {ver}" if codename else f"macOS {ver}"
+        else:
+            ver_short = ".".join(ver.split(".")[:2])
+            codename = MACOS_VERSIONS.get(ver_short, "")
+            os_name = f"macOS {codename} {ver}" if codename else f"macOS {ver}"
     elif system == "Linux":
         kernel_ver = platform.release()
         kernel = f"Linux {kernel_ver}"
         os_name = f"{distro.name(pretty=True)}" if distro else system
     else:
         os_name = system
-
     return os_name, kernel
 
 

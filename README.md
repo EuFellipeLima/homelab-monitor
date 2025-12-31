@@ -9,7 +9,7 @@ Currently, it displays:
 - System uptime
 - Hostname
 - OS name (normalized for Windows/macOS/Linux)
-- Kernel (shown on macOS/Linux, hidden on Windows)
+- Kernel (shown as Darwin on macOS, Linux version on Linux, hidden on Windows)
 
 The output is shown directly in the terminal.
 
@@ -34,7 +34,6 @@ At the moment:
 ## Roadmap (planned)
 
 - Improve disk detection accuracy on Linux and macOS
-- Better accuracy to macOS version detection
 - Optional JSON output
 - Run as a background service
 - Code cleanup and small improvements
