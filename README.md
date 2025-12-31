@@ -14,7 +14,7 @@ The output is shown directly in the terminal.
 This project is a small learning and experimentation tool focused on:
 - System monitoring
 - Python scripting
-- Future cross-platform support
+- Cross-platform system monitoring
 
 ## Current Status
 
@@ -23,13 +23,12 @@ This project is a small learning and experimentation tool focused on:
 At the moment:
 - Basic monitoring is implemented
 - Output is printed to the terminal
-- Windows is the primary tested platform
-
-Cross-platform support (Linux and macOS) is planned for future updates.
+- Cross-platform support for Windows, Linux and macOS (lightly tested)
 
 ## Roadmap (planned)
 
-- Cross-platform disk detection
-- Linux support
-- macOS support
+- Improve disk detection accuracy on Linux and macOS
+- Add uptime and system information
+- Optional JSON output
+- Run as a background service
 - Code cleanup and small improvements
