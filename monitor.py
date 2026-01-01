@@ -1,6 +1,7 @@
 import psutil
 import platform
 import time
+import subprocess
 
 try:
     import distro
@@ -81,18 +82,20 @@ def get_os_info():
         ver, build, sp, _ = platform.win32_ver()
         os_name = f"Windows {ver} {sp} (Build: {build})".strip()
     elif system == "Darwin":
-        ver, _, _ = platform.mac_ver()
+        real_ver = get_macos_version()
         kernel_ver = platform.release()
         kernel = f"Darwin {kernel_ver}"
-        major = int(ver.split(".")[0])
+        
+        if real_ver:
+            major = int(real_ver.split(".")[0])
 
         if major >= 11:
             codename = MACOS_VERSIONS.get(str(major), "")
-            os_name = f"macOS {codename} {ver}" if codename else f"macOS {ver}"
+            os_name = f"macOS {codename} {real_ver}" if codename else f"macOS {real_ver}"
         else:
             ver_short = ".".join(ver.split(".")[:2])
             codename = MACOS_VERSIONS.get(ver_short, "")
-            os_name = f"macOS {codename} {ver}" if codename else f"macOS {ver}"
+            os_name = f"macOS {codename} {real_ver}" if codename else f"macOS {real_ver}"
     elif system == "Linux":
         kernel_ver = platform.release()
         kernel = f"Linux {kernel_ver}"
@@ -101,6 +104,15 @@ def get_os_info():
         os_name = system
     return os_name, kernel
 
+def get_macos_version():
+    try:
+        result = subprocess.check_output(
+            ["sw_vers", "-productVersion"],
+            stderr=subprocess.DEVNULL
+        )
+        return result.decode().strip()
+    except Exception:
+        return None
 
 def get_system_info():
     os_name, kernel = get_os_info()
