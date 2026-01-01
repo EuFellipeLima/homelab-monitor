@@ -20,6 +20,20 @@ This project is a small learning and experimentation tool focused on:
 - Python scripting
 - Cross-platform system monitoring
 
+Built mainly for personal homelab usage and learning purposes.
+
+## Example output
+
+```text
+HOSTNAME: Fellipes-Mac-Pro.local
+OS: macOS Sequoia 15.7.2
+KERNEL: Darwin 24.6.0
+CPU: 18.2%
+RAM: 41.9%
+DISK: 62.3%
+UPTIME: 3d 4h 12m
+```
+
 ## Current Status
 
 🚧 Early development
