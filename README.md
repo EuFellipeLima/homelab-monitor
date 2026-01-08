@@ -29,7 +29,7 @@ HOSTNAME: Fellipes-Mac-Pro.local
 OS: macOS Sequoia 15.7.2
 KERNEL: Darwin 24.6.0
 CPU: 18.2%
-RAM: 41.9%
+RAM: 50.6% (16.2 / 32.0 GB | Free: 15.8 GB)
 DISK: 62.3%
 UPTIME: 3d 4h 12m
 ```

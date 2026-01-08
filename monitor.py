@@ -36,8 +36,18 @@ MACOS_VERSIONS = {
 def get_cpu():
     return psutil.cpu_percent(interval=1)
 
-def get_ram():
-    return psutil.virtual_memory().percent
+def get_ram_info():
+    mem = psutil.virtual_memory()
+    total_gb = bytes_to_gb(mem.total)
+    used_gb = bytes_to_gb(mem.used)
+    free_gb = bytes_to_gb(mem.available)
+
+    return {
+        "percent": mem.percent,
+        "total_gb": total_gb,
+        "used_gb": used_gb,
+        "free_gb": free_gb
+    }
 
 def get_disk():
     system = platform.system()
@@ -74,6 +84,9 @@ def format_seconds(seconds):
     else:
         return "less than 1m"
     
+def bytes_to_gb(bytes_value):
+    return bytes_value / (1024 ** 3)
+    
 def get_os_info():
     system = platform.system()
     kernel = None
@@ -85,7 +98,7 @@ def get_os_info():
         real_ver = get_macos_version()
         kernel_ver = platform.release()
         kernel = f"Darwin {kernel_ver}"
-        
+
         if real_ver:
             major = int(real_ver.split(".")[0])
 
@@ -117,9 +130,9 @@ def get_macos_version():
 def get_system_info():
     os_name, kernel = get_os_info()
     return {
-        "cpu": get_cpu(),
-        "ram": get_ram(),
-        "disk": get_disk(),
+        'cpu': get_cpu(),
+        'ram': get_ram_info(),
+        'disk': get_disk(),
         'uptime': get_system_uptime(),
         'hostname': platform.node(),
         'os': os_name,
@@ -128,13 +141,20 @@ def get_system_info():
 
 def main():
     info = get_system_info()
+    
+    ram = info['ram']
+    ram_percent = ram['percent']
+    ram_used = ram['used_gb']
+    ram_total = ram['total_gb']
+    ram_free = ram['free_gb']
 
     print(f"HOSTNAME: {info['hostname']}")
     print(f"OS: {info['os']}")
     if info['kernel']:
         print(f"KERNEL: {info['kernel']}")
     print(f"CPU: {info['cpu']:.1f}%")
-    print(f"RAM: {info['ram']:.1f}%")
+    print(f"RAM: {ram_percent:.1f}% "
+          f"({ram_used:.1f} / {ram_total:.1f} GB | Free: {ram_free:.1f} GB)")
     print(f"DISK: {info['disk']:.1f}%")
     print(f"UPTIME: {format_seconds(info['uptime'])}")
 
