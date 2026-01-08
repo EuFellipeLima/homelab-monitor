@@ -174,7 +174,7 @@ def main():
     for d in info['disks']:
         print(
             f" - {d['mountpoint']} "
-            f"({d['fstype']}): "
+            f"({d['fstype']}, {d['device']}): "
             f"{d['percent']:.1f}% "
             f"({d['used_gb']:.1f} / {d['total_gb']:.1f} GB)"
         )
