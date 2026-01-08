@@ -74,9 +74,9 @@ def get_disks_info():
             "used_gb": bytes_to_gb(usage.used),
             "total_gb": bytes_to_gb(usage.total),
         }
-
         disks.append(disk)
-
+        
+    disks.sort(key=lambda d: d["mountpoint"])
     return disks
 
 def get_system_uptime():

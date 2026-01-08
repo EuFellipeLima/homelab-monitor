@@ -32,10 +32,10 @@ CPU: 18.2%
 RAM: 50.6% (16.2 / 32.0 GB | Free: 15.8 GB)
 DISKS:
  - / (apfs, /dev/disk3s7s1): 6.7% (21.8 / 465.7 GB)
- - /System/Volumes/Preboot (apfs, /dev/disk3s2): 2.3% (7.2 / 465.7 GB)
- - /System/Volumes/VM (apfs, /dev/disk3s6): 0.0% (0.0 / 465.7 GB)
- - /System/Volumes/Update (apfs, /dev/disk3s5): 0.0% (0.1 / 465.7 GB)
  - /System/Volumes/Data (apfs, /dev/disk3s8): 30.1% (130.7 / 465.7 GB)
+ - /System/Volumes/Preboot (apfs, /dev/disk3s2): 2.3% (7.2 / 465.7 GB)
+ - /System/Volumes/Update (apfs, /dev/disk3s5): 0.0% (0.1 / 465.7 GB)
+ - /System/Volumes/VM (apfs, /dev/disk3s6): 0.0% (0.0 / 465.7 GB)
  - /Volumes/Games (ntfs, /dev/disk2s3): 99.8% (464.8 / 465.7 GB)
 UPTIME: 3d 4h 12m
 ```
@@ -56,7 +56,6 @@ At the moment:
 ### Disk improvements
 - Improve disk filtering and reduce noisy system mountpoints
 - Filter system and ephemeral mountpoints (especially on macOS)
-- Sort disks by mountpoint or device
 - Display disk labels when available
 
 ### General
