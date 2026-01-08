@@ -30,7 +30,13 @@ OS: macOS Sequoia 15.7.2
 KERNEL: Darwin 24.6.0
 CPU: 18.2%
 RAM: 50.6% (16.2 / 32.0 GB | Free: 15.8 GB)
-DISK: 62.3%
+DISKS:
+ - / (apfs): 6.7% (21.8 / 465.7 GB)
+ - /System/Volumes/Preboot (apfs): 2.3% (7.2 / 465.7 GB)
+ - /System/Volumes/VM (apfs): 0.0% (0.0 / 465.7 GB)
+ - /System/Volumes/Update (apfs): 0.0% (0.1 / 465.7 GB)
+ - /System/Volumes/Data (apfs): 30.1% (130.7 / 465.7 GB)
+ - /Volumes/Games (ntfs): 99.8% (464.8 / 465.7 GB)
 UPTIME: 3d 4h 12m
 ```
 
@@ -47,7 +53,13 @@ At the moment:
 
 ## Roadmap (planned)
 
-- Improve disk detection accuracy on Linux and macOS
+### Disk improvements
+- Improve disk filtering and reduce noisy system mountpoints
+- Filter system and ephemeral mountpoints (especially on macOS)
+- Sort disks by mountpoint or device
+- Display disk labels when available
+
+### General
 - Optional JSON output
 - Run as a background service
 - Code cleanup and small improvements

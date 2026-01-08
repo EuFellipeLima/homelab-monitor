@@ -33,6 +33,11 @@ MACOS_VERSIONS = {
     "26": "Tahoe"
 }
 
+IGNORE_FS = {
+    "proc", "sysfs", "tmpfs", "devtmpfs",
+    "overlay", "squashfs", "autofs"
+}
+
 def get_cpu():
     return psutil.cpu_percent(interval=1)
 
@@ -49,20 +54,30 @@ def get_ram_info():
         "free_gb": free_gb
     }
 
-def get_disk():
-    system = platform.system()
+def get_disks_info():
+    disks = []
 
-    if system == "Windows":
-        path = "C:\\"
-    elif system == "Linux":
-        path = "/"
-    elif system == "Darwin":
-        path = "/"
-    else:
-        raise RuntimeError(f"Unsupported operating system: {system}")
+    for part in psutil.disk_partitions(all=False):
+        if part.fstype.lower() in IGNORE_FS:
+            continue
 
-    disk = psutil.disk_usage(path)
-    return disk.percent
+        try:
+            usage = psutil.disk_usage(part.mountpoint)
+        except PermissionError:
+            continue
+
+        disk = {
+            "device": part.device,
+            "mountpoint": part.mountpoint,
+            "fstype": part.fstype,
+            "percent": usage.percent,
+            "used_gb": bytes_to_gb(usage.used),
+            "total_gb": bytes_to_gb(usage.total),
+        }
+
+        disks.append(disk)
+
+    return disks
 
 def get_system_uptime():
     boot_time = psutil.boot_time()
@@ -132,7 +147,7 @@ def get_system_info():
     return {
         'cpu': get_cpu(),
         'ram': get_ram_info(),
-        'disk': get_disk(),
+        'disks': get_disks_info(),
         'uptime': get_system_uptime(),
         'hostname': platform.node(),
         'os': os_name,
@@ -155,7 +170,14 @@ def main():
     print(f"CPU: {info['cpu']:.1f}%")
     print(f"RAM: {ram_percent:.1f}% "
           f"({ram_used:.1f} / {ram_total:.1f} GB | Free: {ram_free:.1f} GB)")
-    print(f"DISK: {info['disk']:.1f}%")
+    print(f"DISKS:")
+    for d in info['disks']:
+        print(
+            f" - {d['mountpoint']} "
+            f"({d['fstype']}): "
+            f"{d['percent']:.1f}% "
+            f"({d['used_gb']:.1f} / {d['total_gb']:.1f} GB)"
+        )
     print(f"UPTIME: {format_seconds(info['uptime'])}")
 
 if __name__ == "__main__":
