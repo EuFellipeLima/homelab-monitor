@@ -33,6 +33,15 @@ MACOS_VERSIONS = {
     "26": "Tahoe"
 }
 
+MACOS_IGNORE_MOUNT_PREFIXES = {
+    "/System/Library",
+    "/System/Volumes/Preboot",
+    "/System/Volumes/VM",
+    "/System/Volumes/Update",
+    "/System/Volumes/Recovery",
+    "/System/Volumes/Hardware",
+}
+
 IGNORE_FS = {
     "proc", "sysfs", "tmpfs", "devtmpfs",
     "overlay", "squashfs", "autofs"
@@ -55,11 +64,16 @@ def get_ram_info():
     }
 
 def get_disks_info():
+    system = platform.system()
     disks = []
 
     for part in psutil.disk_partitions(all=False):
         if part.fstype.lower() in IGNORE_FS:
             continue
+
+        if system == "Darwin":
+            if any(part.mountpoint.startswith(p) for p in MACOS_IGNORE_MOUNT_PREFIXES):
+                    continue
 
         try:
             usage = psutil.disk_usage(part.mountpoint)
